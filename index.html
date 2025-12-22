@@ -1,1 +1,63 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <div class="left-section">
+      <img src="Images/Logo.png" class="logo">
+    </div>
+    <div class="right-section">
+      <p class="naviagtion">
+        Add tasks
+      </p>
+      <p class="naviagtion">
+        Total tasks
+      </p>
+      <p class="naviagtion">
+        Completed tasks
+      </p>
+    </div>
+  </div>
+  <div class="start">
+    <img class="start-image" src="Images/Background image.png">
+  </div>
+  <div class="add-task">
+    <button class="add-task-btn">Add New Task</button>
+  </div>
+  <div class="search-section">
+    <input type="text" placeholder="Search tasks">
+    <div class="all-categories">
+            <label class="task-categories"></label>
+            <select class="category-select">
+              <option>All Categories</option>
+              <option>Work</option>
+              <option>Personal</option>
+              <option>Health</option>
+              <option>Shopping</option>
+              <option>Other</option>
+            </select>
+    </div>
+    <div class="sorting">
+            <label class="sort"></label>
+            <select class="category-select">
+              <option>Not Sorted</option>
+              <option>Due Date (Earliest)</option>
+              <option>Due Date (Latest)</option>
+              <option>Title(A-Z)</option>
+              <option>Title(Z-A)</option>
+            </select>
+    </div>
+  </div>
+  <div class="show-tasks">
+    <p>Your Tasks</p>
+    <p>Here are your pending tasks!</p>
+  </div>
+  <div class="completed-tasks">
+    <p>Completed Tasks</p>
+    <p>Here are the tasks you accomplished. You are doing a great job!</p>
+  </div>
+</body>
+</html>
