@@ -131,3 +131,94 @@ taskForm.addEventListener("submit", async (e) => {
   }
 });
 
+const searchInput = document.querySelector(".search");
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  filterTasks(query);
+});
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const query = searchInput.value.toLowerCase();
+    filterTasks(query);
+  }
+});
+
+const categorySelect = document.querySelector(".category-select");
+searchInput.addEventListener("input", filterTasks);
+categorySelect.addEventListener("change", filterTasks);
+
+function filterTasks() {
+  const searchText = searchInput.value.toLowerCase();
+  const selectedCategory = categorySelect.value;
+
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(tasks => {
+      let filtered = tasks;
+      if (searchText) {
+        filtered = filtered.filter(task =>
+          task.title.toLowerCase().includes(searchText)
+        );
+      }
+      if (selectedCategory && selectedCategory !== "All Categories") {
+        filtered = filtered.filter(task => task.category === selectedCategory);
+      }
+
+      renderTasks(filtered);
+    });
+}
+
+const themeToggle = document.getElementById("themeToggle");
+const body = document.body;
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const icon = themeToggle.querySelector("svg");
+  if (body.classList.contains("dark-mode")) {
+    icon.innerHTML = `
+      <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 8a4 4 0 100 8 4 4 0 000-8z"
+            stroke="currentColor" stroke-width="2"/>
+    `;
+  } else {
+    icon.innerHTML =`
+      <path d="M21 12.79A9 9 0 0111.21 3 7 7 0 1019 14.79z"
+            stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+});
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-mode");
+}
+
+const sortSelect = document.querySelectorAll(".sorting select")[0];
+
+sortSelect.addEventListener("change", () => {
+  const sortValue = sortSelect.value;
+
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(tasks => {
+      let sortedTasks = [...tasks];
+
+      switch (sortValue) {
+        case "Due Date (Earliest)":
+          sortedTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+          break;
+        case "Due Date (Latest)":
+          sortedTasks.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+          break;
+        case "Title (A-Z)":
+          sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        case "Title (Z-A)":
+          sortedTasks.sort((a, b) => b.title.localeCompare(a.title));
+          break;
+        default:
+          break;
+      }
+
+      renderTasks(sortedTasks);
+    });
+});
+
