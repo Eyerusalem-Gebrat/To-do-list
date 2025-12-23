@@ -128,7 +128,7 @@ body {
 }
 
 .add-task-btn {
-  background-color: #ff7a00;
+  background-color: #fe8d24;
   color: white;
   border: none;
   padding: 14px 28px;
@@ -340,7 +340,7 @@ body {
 
 .show-tasks {
   margin-bottom: 40px;
-  background: #e67e22;
+  background: #ffa14f;
   color: white;
   padding: 20px 18px;
   border-radius: 12px;
