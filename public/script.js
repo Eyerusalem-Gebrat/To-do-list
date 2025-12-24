@@ -172,24 +172,39 @@ function filterTasks() {
 
 const themeToggle = document.getElementById("themeToggle");
 const body = document.body;
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  const icon = themeToggle.querySelector("svg");
-  if (body.classList.contains("dark-mode")) {
+const icon = themeToggle.querySelector("svg");
+
+/* Apply saved theme on load */
+function applyTheme() {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    body.classList.add("dark-mode");
     icon.innerHTML = `
       <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 8a4 4 0 100 8 4 4 0 000-8z"
             stroke="currentColor" stroke-width="2"/>
     `;
   } else {
-    icon.innerHTML =`
+    body.classList.remove("dark-mode");
+    icon.innerHTML = `
       <path d="M21 12.79A9 9 0 0111.21 3 7 7 0 1019 14.79z"
             stroke="currentColor" stroke-width="2"/>
     `;
   }
-});
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark-mode");
 }
+
+applyTheme();
+
+/* Toggle theme */
+themeToggle.addEventListener("click", () => {
+  body.classList.toggle("dark-mode");
+
+  const isDark = body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+
+  applyTheme();
+});
+
 
 const sortSelect = document.querySelectorAll(".sorting select")[0];
 
@@ -208,10 +223,10 @@ sortSelect.addEventListener("change", () => {
         case "Due Date (Latest)":
           sortedTasks.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
           break;
-        case "Title (A-Z)":
+        case "Title(A-Z)":
           sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
           break;
-        case "Title (Z-A)":
+        case "Title(Z-A)":
           sortedTasks.sort((a, b) => b.title.localeCompare(a.title));
           break;
         default:
